@@ -5,23 +5,24 @@ A fast, contemporary and easy to use cross-platform graphical widget framework w
 # Features
 
 **Backends**
-[x] OpenGL
-[ ] Vulkan
+- [x] OpenGL
+- [ ] Vulkan
 
 **Modules**
-[ ] Animation
-[ ] Core
-[ ] Display
-[ ] Event
-[ ] Image
-[ ] Localisation
-[ ] Network
-[ ] Media
-[ ] Monitor
-[ ] Shader
-[ ] Touch
-[ ] Widget
-[ ] Window
+
+- [ ] Animation
+- [ ] Core
+- [ ] Display
+- [ ] Event
+- [ ] Image
+- [ ] Localisation
+- [ ] Network
+- [ ] Media
+- [ ] Monitor
+- [ ] Shader
+- [ ] Touch
+- [ ] Widget
+- [ ] Window
 
 # Purpose
 
@@ -29,4 +30,4 @@ This toolkit is being developed as a part of the Fluid Project as to serve as a 
 
 #  Documentation
 
-You can read the framework's documentation (here)[https://github.com/Untethered-Systems-LLC/droplet/wiki].
+You can read the framework's documentation [here](https://github.com/Untethered-Systems-LLC/droplet/wiki).
