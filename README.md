@@ -38,7 +38,7 @@ This framework is not meant to replace softwares for game development and is not
 
 I am not going to focus on Metal and DirectX support for now. Contributors are welcome to provide support for their preferred backend. I personally see no benefit in supporting more rendering engines, because Vulkan is very performant and does everything any other API can do, while OpenGL is simpler in complexity and both are cross-platform as well (Vulkan works on macOS via MoltenVK). DirectX and Metal are proprietary software only supported on Windows and macOS respectively.
 
-# Why should I use this framework, because Qt already exists?
+# Why should I use this framework when Qt already exists?
 
 If Qt does the job well for you, go for it. I personally believe it's a great framework with a lot of functionality engrained,
 but that comes with a lot of drawbacks, such as a steep learning curve, limitations in rendering backends and so on.
