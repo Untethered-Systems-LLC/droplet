@@ -3,9 +3,9 @@
 using namespace Droplet;
 
 int main(void) {
-    Window* App = new Window();
-    App->start();
-    App->display();
+    Window App;
+
+    App.run();
 
     return 0;
 }

@@ -3,9 +3,11 @@
 #include <string>
 #include <sys/types.h>
 #include <utility>
-#define GLFW_INCLUDE_VULKAN
 #include <string.h>
 #include <iostream>
+
+#define GLFW_INCLUDE_VULKAN
+#include <vulkan/vulkan.h>
 #include "GLFW/glfw3.h"
 #include "WindowView.cpp"
 
@@ -37,32 +39,7 @@ namespace Droplet {
         pair<bool, bool> state = {false, true};    // Pair of two states: isMinimised and isFocused
         WindowMode mode = Windowed;                     // Windowed or Fullscreen
         WindowView view;                                // Shows the window view
-        
-
-        public:
-        Window() {}
-        Window(string title, pair<uint, uint> dimensions,
-                WindowDecorations decorations[],
-                WindowMode mode) {
-                    this->title = title;
-                    this->dimensions = dimensions;
-                    for (int i = 0; i < 4; i++) {
-                        this->decorations[i] = decorations[i];
-                    }
-                    this->mode = mode;
-                }
-
-        Window(string title, pair<uint, uint> dimensions,
-                WindowDecorations decorations[],
-                WindowMode mode, WindowView view) {
-                    this->title = title;
-                    this->dimensions = dimensions;
-                    for (int i = 0; i < 4; i++) {
-                        this->decorations[i] = decorations[i];
-                    }
-                    this->mode = mode;
-                    this->view = view;
-                }        
+        GLFWwindow* window;                             // Window
 
         void start() {
             if (!glfwInit()) {
@@ -70,8 +47,7 @@ namespace Droplet {
             }
         }
 
-        void display() {
-            GLFWwindow* window;
+        void create() {
             switch (mode) {
                 case Windowed:
                 window = glfwCreateWindow(dimensions.first,
@@ -90,7 +66,49 @@ namespace Droplet {
                 break;
 
                 default:
-                cerr << "Failed to display window." << endl;
+                cerr << "Failed to create window." << endl;
+            }
+        }
+        
+        public:
+        Window() {}
+        Window(string title, pair<uint, uint> dimensions,
+                WindowDecorations decorations[],
+                WindowMode mode) {
+                    this->title = title;
+                    this->dimensions = dimensions;
+                    for (int i = 0; i < 4; i++) {
+                        this->decorations[i] = decorations[i];
+                    }
+                    this->mode = mode;
+
+                    this->start();
+                    this->create();
+                }
+
+        Window(string title, pair<uint, uint> dimensions,
+                WindowDecorations decorations[],
+                WindowMode mode, WindowView view) {
+                    this->title = title;
+                    this->dimensions = dimensions;
+                    for (int i = 0; i < 4; i++) {
+                        this->decorations[i] = decorations[i];
+                    }
+                    this->mode = mode;
+                    this->view = view;
+
+                    this->start();
+                    this->create();
+                }
+
+        ~Window() {
+            glfwTerminate();
+        }
+
+        void run() {
+            while (!glfwWindowShouldClose(window)) {
+                glfwSwapBuffers(window);
+                glfwPollEvents();
             }
         }
     };
