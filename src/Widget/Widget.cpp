@@ -6,12 +6,10 @@
 #include <string.h>
 #include <iostream>
 #include "GLFW/glfw3.h"
-#include "../Core/Element.cpp"
 
 namespace Droplet {
-    class WindowView {
+    class Widget {
         private:
-        std::vector<Element> elements; // contains elements to be displayed
         
     };
 }

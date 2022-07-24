@@ -6,7 +6,7 @@ A fast, contemporary and easy to use cross-platform graphical widget framework w
 
 **Backends**
 - [x] OpenGL
-- [x] Vulkan
+- [ ] Vulkan    - *Will be started after the framework reaches a stable and complete state on OpenGL, and when there are more volunteers.*
 
 **Modules**
 

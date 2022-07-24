@@ -1,3 +1,4 @@
+#include <GL/gl.h>
 #include <cstddef>
 #include <iterator>
 #include <string>
@@ -5,6 +6,7 @@
 #include <utility>
 #include <string.h>
 #include <iostream>
+#include <vector>
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
@@ -15,6 +17,7 @@ namespace Droplet {
     using std::pair;
     using std::cerr;
     using std::endl;
+    using std::vector;
 
     enum WindowDecorations {                // The buttons of the window
         Pin,
@@ -32,81 +35,81 @@ namespace Droplet {
         private:
         string title = "Droplet Window";                // Window title
         pair<uint, uint> dimensions = {640, 480};  // Window dimensions <x, y>
-        WindowDecorations decorations[4] = {
+        vector<WindowDecorations> decorations = {
             Pin, Minimise, Maximise, Close
         };                                              // All possible decorators are 4.
         pair<bool, bool> state = {false, true};    // Pair of two states: isMinimised and isFocused
         WindowMode mode = Windowed;                     // Windowed or Fullscreen
         WindowView view;                                // Shows the window view
+        GLFWmonitor* monitor;                           // Monitor
         GLFWwindow* window;                             // Window
-
-        void start() {
-            if (!glfwInit()) {
-                cerr << "Cannot start the program." << endl;
-            }
-        }
 
         void create() {
             switch (mode) {
                 case Windowed:
-                window = glfwCreateWindow(dimensions.first,
-                        dimensions.second,
-                        title.c_str(),
-                        NULL,
-                        NULL);
+                monitor = NULL;
                 break;
 
                 case Fullscreen:
-                window = glfwCreateWindow(dimensions.first,
-                        dimensions.second,
-                        title.c_str(),
-                        glfwGetPrimaryMonitor(),
-                        NULL);
+                monitor = glfwGetPrimaryMonitor();
                 break;
 
                 default:
                 cerr << "Failed to create window." << endl;
             }
+            
+            window = glfwCreateWindow(dimensions.first,
+                        dimensions.second,
+                        title.c_str(),
+                        monitor,
+                        NULL);
         }
         
         public:
-        Window() {}
-        Window(string title, pair<uint, uint> dimensions,
-                WindowDecorations decorations[],
-                WindowMode mode) {
+        // Empty constructor with all defaults as set above
+        Window() {
+            this->create();
+        }
+
+        // Constructor with optional parameters
+        Window(string title = "Droplet Window", pair<uint, uint> dimensions = {640, 480},
+                vector<WindowDecorations> decorations = {Pin, Minimise, Maximise, Close},
+                WindowMode mode = Windowed) {
+                    int i = 0;
                     this->title = title;
                     this->dimensions = dimensions;
-                    for (int i = 0; i < 4; i++) {
-                        this->decorations[i] = decorations[i];
+                    for (auto decorator : decorations) {
+                        this->decorations[i] = decorator;
+                        i++;
                     }
                     this->mode = mode;
 
-                    this->start();
                     this->create();
                 }
 
+        // Full contructor with provided view parameter
         Window(string title, pair<uint, uint> dimensions,
-                WindowDecorations decorations[],
+                vector<WindowDecorations> decorations,
                 WindowMode mode, WindowView view) {
+                    int i = 0;
                     this->title = title;
                     this->dimensions = dimensions;
-                    for (int i = 0; i < 4; i++) {
-                        this->decorations[i] = decorations[i];
+                    for (auto decorator : decorations) {
+                        this->decorations[i] = decorator;
+                        i++;
                     }
                     this->mode = mode;
                     this->view = view;
 
-                    this->start();
                     this->create();
                 }
 
         ~Window() {
-            glfwTerminate();
+            glfwDestroyWindow(window);
         }
 
-        void run() {
-            while (!glfwWindowShouldClose(window)) {
-                glfwSwapBuffers(window);
+        void display() {
+            while (!glfwWindowShouldClose(window)) {                
                 glfwPollEvents();
             }
         }
